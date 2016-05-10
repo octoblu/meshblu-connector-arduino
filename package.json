@@ -1,6 +1,6 @@
 {
   "name": "meshblu-connector-arduino",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "Meshblu Connector ",
   "homepage": "https://github.com/octoblu/arduino",
   "bugs": "https://github.com/octoblu/arduino/issues",
@@ -32,7 +32,7 @@
     "eventemitter2": "^1.0.0",
     "kryten": "^1.0.15",
     "lodash": "^4.12.0",
-    "meshblu-connector-runner": "^3.0.2"
+    "meshblu-connector-runner": "^4.0.2"
   },
   "meshbluConnector": {
     "githubSlug": "octoblu/meshblu-connector-arduino",
