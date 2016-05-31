@@ -2,7 +2,7 @@
 _            = require 'lodash'
 debug           = require('debug')('meshblu-connector-arduino:index')
 Kryten = require 'kryten'
-kryten = new Kryten {}
+kryten = new Kryten {repl: false}
 defaultSchema = require './schemas.json'
 prev = {}
 prevSchema = {}
