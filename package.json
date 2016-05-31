@@ -1,6 +1,6 @@
 {
   "name": "meshblu-connector-arduino",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Meshblu Connector ",
   "homepage": "https://github.com/octoblu/meshblu-connector-arduino",
   "bugs": "https://github.com/octoblu/meshblu-connector-arduino/issues",
