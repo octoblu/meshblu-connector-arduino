@@ -11,7 +11,6 @@ defaultOptions = require './default-options.json'
 class Arduino extends EventEmitter
   constructor: ->
     debug 'Arduino constructed'
-    @options = defaultOptions
 
   isOnline: (callback) =>
     callback null, running: true
@@ -35,12 +34,13 @@ class Arduino extends EventEmitter
     @onConfig device
 
   setOptions: (device) =>
-   @options = device.options || defaultOptions
+   @options = device.options
    return unless device.schemas?
    @schemas = device.schemas
    debug 'options', @options
    return if _.isEqual(@options, prev) || _.isEqual(@schemas.message, prevSchema)
    kryten.configure @options
+   debug 'configuring kryten', @options
    prev = @options
 
   update: (properties) =>
