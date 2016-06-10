@@ -3,23 +3,15 @@ _            = require 'lodash'
 debug           = require('debug')('meshblu-connector-arduino:index')
 Kryten = require 'kryten'
 kryten = new Kryten {repl: false}
-defaultSchema = require './schemas.json'
 prev = {}
 prevSchema = {}
 FORMSCHEMA = ["*"]
-testOptions = defaultSchema.testOptions
+defaultOptions = require './default-options.json'
 
 class Arduino extends EventEmitter
   constructor: ->
     debug 'Arduino constructed'
-    @options = testOptions
-    @messageSchema = defaultSchema.MESSAGE_SCHEMA
-    @optionsSchema = defaultSchema.OPTIONS_SCHEMA
-
-    @starterDevice =
-      options: @options
-      messageSchema: @messageSchema
-      optionsSchema: @optionsSchema
+    @options = defaultOptions
 
   isOnline: (callback) =>
     callback null, running: true
@@ -29,51 +21,41 @@ class Arduino extends EventEmitter
     callback()
 
   onMessage: (message) =>
-    return unless message?
-    { topic, devices, fromUuid } = message
-    return if '*' in devices
-    return if fromUuid == @uuid
-
+    return unless message.payload?
     kryten.onMessage message
-    debug 'onMessage', { topic }
 
   onConfig: (config) =>
     return unless config?
     @setOptions config
-    debug 'on config', @uuid
 
   start: (device) =>
-    { @uuid } = device
-    debug 'started', @uuid
+    debug 'started', device.uuid
+
     @startKryten()
-    @setOptions device
+    @onConfig device
 
   setOptions: (device) =>
-   self = @
-   @update(@starterDevice) unless device.optionsSchema?
-   self.options = device.options || testOptions
-   debug 'options', self.options
-   if !_.isEqual device.options, prev
-     debug 'options not equal'
-     kryten.configure self.options
-     prev = self.options
+   @options = device.options || defaultOptions
+   return unless device.schemas?
+   @schemas = device.schemas
+   debug 'options', @options
+   return if _.isEqual(@options, prev) || _.isEqual(@schemas.message, prevSchema)
+   kryten.configure @options
+   prev = @options
 
   update: (properties) =>
     @emit 'update', properties
     debug 'updating', properties
 
   startKryten: () =>
-    self = @
     kryten.on 'ready', () =>
-      kryten.on 'schema', (schema) =>
-        if !_.isEqual(self.options, prev) || !_.isEqual(schema, prevSchema)
+      kryten.on 'config', (schema) =>
+        return if _.isEqual(@options, prev) || _.isEqual(schema, prevSchema)
           debug 'updating'
           prevSchema = schema
-          self.update {
-            messageSchema: schema.MESSAGE_SCHEMA
-            messageFormSchema: schema.FORMSCHEMA
-            optionsSchema: defaultSchema.OPTIONS_SCHEMA
-            optionsForm: defaultSchema.OPTIONS_FORM
+          @schemas.message = schema
+          @update {
+            schemas: @schemas
           }
       kryten.on 'data', (data) =>
         @emit 'message', {

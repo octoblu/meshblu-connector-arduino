@@ -1,6 +1,6 @@
 {
   "name": "meshblu-connector-arduino",
-  "version": "0.1.8",
+  "version": "2.0.1",
   "description": "Meshblu Connector ",
   "homepage": "https://github.com/octoblu/meshblu-connector-arduino",
   "bugs": "https://github.com/octoblu/meshblu-connector-arduino/issues",
@@ -30,12 +30,13 @@
     "coffee-script": "^1.10.0",
     "debug": "^2.2.0",
     "eventemitter2": "^1.0.0",
-    "kryten": "^1.0.17",
+    "kryten": "^2.0.2",
     "lodash": "^4.12.0",
     "meshblu-connector-runner": "^6.0.0"
   },
   "meshbluConnector": {
-    "githubSlug": "octoblu/meshblu-connector-arduino"
+    "githubSlug": "octoblu/meshblu-connector-arduino",
+    "schemasUrl": "https://raw.githubusercontent.com/octoblu/meshblu-connector-arduino/v2.0.1/schemas.json"
   },
   "platformDependencies": {
     "darwin": [],
