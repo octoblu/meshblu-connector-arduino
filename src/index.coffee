@@ -38,7 +38,7 @@ class Arduino extends EventEmitter
    return unless device.schemas?
    @schemas = device.schemas
    debug 'options', @options
-   return if _.isEqual(@options, prev) || _.isEqual(@schemas.message, prevSchema)
+   return if _.isEqual(@options, prev)
    kryten.configure @options
    debug 'configuring kryten', @options
    prev = @options
@@ -50,13 +50,13 @@ class Arduino extends EventEmitter
   startKryten: () =>
     kryten.on 'ready', () =>
       kryten.on 'config', (schema) =>
-        return if _.isEqual(@options, prev) || _.isEqual(schema, prevSchema)
-          debug 'updating'
-          prevSchema = schema
-          @schemas.message = schema
-          @update {
-            schemas: @schemas
-          }
+        return if _.isEqual(@options, prev)
+        debug 'updating'
+        prevSchema = schema
+        @schemas.message = schema
+        @update {
+          schemas: @schemas
+        }
       kryten.on 'data', (data) =>
         @emit 'message', {
           devices: "*"
