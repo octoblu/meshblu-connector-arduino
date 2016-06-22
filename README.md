@@ -1,3 +1,5 @@
+# Unofficial Octoblu Connector - Use at your own risk
+
 # meshblu-connector-arduino
 
 [![Dependency status](http://img.shields.io/david/octoblu/meshblu-connector-arduino.svg?style=flat)](https://david-dm.org/octoblu/meshblu-connector-arduino)
