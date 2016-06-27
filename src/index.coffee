@@ -19,6 +19,7 @@ class Connector extends EventEmitter
     callback()
 
   onConfig: (device={}) =>
+    return unless device.options?
     { @options } = device
     debug 'on config', @options
     @setOptions device
@@ -36,6 +37,7 @@ class Connector extends EventEmitter
 
   setOptions: (device) =>
    @options = device.options
+
    { components } = @options
    debug 'options', @options
    return if _.isEqual(@options, prev)
