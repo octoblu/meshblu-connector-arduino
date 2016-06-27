@@ -1,0 +1,14 @@
+title: 'ESC'
+type: 'object'
+properties:
+  data:
+    type: 'object'
+    properties:
+      component:
+        title: 'Component Name'
+        type: 'string'
+      speed:
+        type: 'number'
+    required: [
+      'component'
+    ]

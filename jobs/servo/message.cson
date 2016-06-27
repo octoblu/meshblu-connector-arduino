@@ -1,0 +1,32 @@
+title: 'Servo'
+type: 'object'
+properties:
+  data:
+    type: 'object'
+    properties:
+      'component':
+        'title': 'Component Name'
+        'type': 'string'
+      'servo_action':
+        'title': 'Function'
+        'type': 'string'
+        'enum': [
+          'to'
+          'sweep'
+          'stop'
+        ]
+      'sweep':
+        'title': 'Sweep'
+        'type': 'object'
+        'properties':
+          'min': 'type': 'number'
+          'max': 'type': 'number'
+        'x-schema-form': 'condition': 'model.servo_action == \'sweep\''
+      'to_value':
+        'title': 'To'
+        'description': 'An angle value 0 - 180'
+        'type': 'number'
+        'x-schema-form': 'condition': 'model.servo_action == \'to\''
+    required: [
+      'component'
+    ]

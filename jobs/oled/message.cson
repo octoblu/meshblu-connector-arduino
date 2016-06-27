@@ -1,0 +1,14 @@
+title: 'OLED'
+type: 'object'
+properties:
+  data:
+    type: 'object'
+    properties:
+      component:
+        title: 'Component Name'
+        type: 'string'
+      text:
+        type: 'string'
+    required: [
+      'component'
+    ]

@@ -1,0 +1,20 @@
+title: 'Continuous Servo'
+type: 'object'
+properties:
+  data:
+    type: 'object'
+    properties:
+      'component':
+        'title': 'Component Name'
+        'type': 'string'
+      'direction':
+        'title': 'Direction'
+        'type': 'string'
+        'enum': [
+          'CW'
+          'CCW'
+          'STOP'
+        ]
+    required: [
+      'component'
+    ]

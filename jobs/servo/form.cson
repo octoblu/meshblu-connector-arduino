@@ -1,0 +1,6 @@
+angular: [
+  "data.component"
+  "data.servo_action"
+  "data.sweep"
+  "data.to_value"
+]

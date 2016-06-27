@@ -1,16 +1,12 @@
 {EventEmitter}  = require 'events'
-_            = require 'lodash'
 debug           = require('debug')('meshblu-connector-arduino:index')
 Kryten = require 'kryten'
 kryten = new Kryten {repl: false}
+_ = require 'lodash'
 prev = {}
-prevSchema = {}
-FORMSCHEMA = ["*"]
-defaultOptions = require './default-options.json'
 
-class Arduino extends EventEmitter
+class Connector extends EventEmitter
   constructor: ->
-    debug 'Arduino constructed'
 
   isOnline: (callback) =>
     callback null, running: true
@@ -19,48 +15,38 @@ class Arduino extends EventEmitter
     debug 'on close'
     callback()
 
-  onMessage: (message) =>
-    return unless message.payload?
-    kryten.onMessage message
+  onConfig: (device={}) =>
+    { @options } = device
+    debug 'on config', @options
+    @setOptions device
 
-  onConfig: (config) =>
-    return unless config?
-    @setOptions config
-
-  start: (device) =>
-    debug 'started', device.uuid
-
+  start: (device, callback) =>
+    debug 'started'
     @startKryten()
     @onConfig device
+    callback()
+
+  message: (command) =>
+    return unless command.component?
+    kryten.onMessage command
 
   setOptions: (device) =>
    @options = device.options
-   return unless device.schemas?
-   @schemas = device.schemas
    debug 'options', @options
    return if _.isEqual(@options, prev)
    kryten.configure @options
    debug 'configuring kryten', @options
    prev = @options
 
-  update: (properties) =>
-    @emit 'update', properties
-    debug 'updating', properties
-
   startKryten: () =>
     kryten.on 'ready', () =>
       kryten.on 'config', (schema) =>
-        return if _.isEqual(@options, prev)
-        debug 'updating'
-        prevSchema = schema
-        @schemas.message = schema
-        @update {
-          schemas: @schemas
-        }
+        console.log schema
+
       kryten.on 'data', (data) =>
         @emit 'message', {
           devices: "*"
           payload: data
         }
 
-module.exports = Arduino
+module.exports = Connector

@@ -1,0 +1,18 @@
+title: 'Digital Write'
+type: 'object'
+properties:
+  data:
+    type: 'object'
+    properties:
+      component:
+        title: 'Component Name'
+        type: 'string'
+      state:
+        type: 'string'
+        'enum': [
+          '1'
+          '0'
+        ]
+    required: [
+      'component'
+    ]

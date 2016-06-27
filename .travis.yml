@@ -15,10 +15,13 @@ addons:
     - libudev-dev
     - libusb-1.0-0-dev
 env:
+  global:
+  - DEBUG_CORE_DUMP="true"
   matrix:
   - PACKAGER_NODE_VERSION="5.5" PACKAGER_ARCH="amd64" MAIN_BUILD="true"
   - PACKAGER_NODE_VERSION="5.5" PACKAGER_ARCH="386"
 matrix:
+  fast_finish: true
   exclude:
   - os: osx
     env: PACKAGER_NODE_VERSION="5.5" PACKAGER_ARCH="386"
@@ -26,6 +29,7 @@ branches:
   only:
   - "/^v[0-9]/"
 before_install:
+- ulimit -c unlimited -S
 - PACKAGER_URL="https://meshblu-connector.octoblu.com/tools/packager/latest"
 - curl -fsS "${PACKAGER_URL}/travis_install_node.sh" -o /tmp/travis_install_node.sh
 - chmod +x /tmp/travis_install_node.sh
@@ -36,16 +40,18 @@ install:
 script:
 - npm test
 before_deploy:
-- npm install --build-from-source --production
+- npm prune --production
 - npm install meshblu-connector-packager
 - npm dedupe
 - npm install -g flatten-packages
 - flatten-packages
-- npm run package
+- npm run generate:package
+- npm run generate:schema
+- cp schemas.json deploy
 deploy:
 - provider: releases
   api_key:
-    secure: "cVw6SAdQv/D3RjOHky8xm1IiaLJKEFQ8k97eWHLN0B9aPGSJmONFTL/sdPXkUwr5iBFrWAht1vLDJjptUGY5vg3iOWeME3uvHzTRgPYgp8B7pdSlY2+yMVegR5XC6mSBfnqKcml/fdd3b5FRLoZAVWaRdak0DYLjPuu/erbBZYPKhvUTlz7s8QiccBUoMwFUsj/yhdVfeIcLGfFpC+D/HcZ9wlh/Zzg8XJ/lI0AsrSGG+OAnpvqmzxW9iBWvg9WcmxNkX3yQ00LKq0+jowzqfraPiJLCHsC4gXwotOTqesVkfP2Lh0anXJsIhP1/7ORN83ns4I6OkOSE3Ls/F8bo9TuisllFtI4VVLmsFkIua8MNGNrWG3D82un15oA1Gfj53YYEKuM1MW/NmfIjUpApEaL+zUvhX6xSR6eEzmEiqyGhvF0rCMirI//MdsgY3QiWE0Cns9c9r2FL2xHqbYW9ChicdRXHyVUOe7rZ5+EcPt2g8/ZRv2iwlSYhgHeEGhAkoXPFNNopsU8uYwhZsjWmjNNa9shhLXycWSF3lFwIrELBVTI0AiUDuWh2yYlEu8UirUqP0EqhAnlY2Bg2DmHbJl1KUzENyALjw0tuH0OMoCRjrcbfuN1E7QtXyuuFNBpcOPAw5uBV3Pr036W5HXLvOUYrtpJrZDh0e3UqjfobPOs="
+    secure: "HmilMlRL1dEGhByes3iXpdohZ934p3+pCNZgtmdUKFPDZxsOspNii/KitSMQ6gyC5S4DPxoYN9g9DaPywYeYluczirOE4nrPsZlZrDhd91hTH8P+d1V/peVWAuLwZuGC7E+pOa0YsWQDF80tS6wGDf/q/qHLDAvrbCHalAcvW4VrYe4eKB1uzhVqbQ/gQZlcm0rlzPi85mP0SMECWfl0HsFR4Lsfk6LN8MyG7chPj3agWBfQKeKHni+8s2DJB0XTg9mpWObz2EzXSsShjcfqQMaE7+KdNTtHz+wbQmTn4niNILAMZ8MjugeCdbXHH7d5CCkQ3KxxixBKs4TXMgBDGSGbAGEpRu+xfKUca6vCtXelABwcQ7JCXwc4zaLeMV5Cisj42jjdZVGrynuvWVDPt7QibaDnlnPUdY1wqrHCw/zexp0Tu+vOxjs5TdX3nD6+mz46duFYjW/y3Y0KlbhWZnsgfPThim485aDgOMtXOjzKkAklWUaMUjb3jcy/36mN03XKd2M+C6jD7RkYcXbqO2YNrWKTp+ELFXcTP2xUAB7OJbs8shMHJ0czjFoCXH8D5/MFggvSeThHQhAiqkpgJ4STroVTge4e4CbtsDnMyW/fs4YRj1+cSxPhON0p7w9G8qiBw+9rm8vMPpt7sU0uvJXqWPJKUZ4yZmsakS3r8lc="
   file_glob: true
   file:
   - "deploy/*"
@@ -55,7 +61,7 @@ deploy:
 - provider: npm
   email: serveradmin@octoblu.com
   api_key:
-    secure: "T6zCDS3vpWr/7LmEOOcwM6HAYz5JESc0CPa2Y7g0MvtfhBdd+9V+sgp9a1lPp135w6tWHmkuxvcjngraUKISwyI+6ZLAWFyODImD1h3uDgMOxXnEc1+wnkdDShHyVXoKVtd61UkoUqhimXw+hb/7CoPWg+27jWBsGfce1V131cezry+0Lxs57dBACdmqPjwgYy/Y49j1KW6Tfn7cf9aOoSI1jCxsBfp5HvBdyv6rBFrKSKsU5eA2fZrZPryoxB1adQaF9tAQZjzT7LMw8of5XRdMWW2NYVZM5bT/+xS6xxLM5MUDuGXHBcrU1wQeukz1Rr765JcbK5wKpeDmfkc13ziTgC7i2zE3Z1VUW5XVV62EnwS4HD1veOQlCrd0KMIEHd+GiV93JEzTws7ZF5WUmpumbNxxDLVtBKV4qUV9c+mcTAyOBD41LHsLbLzQXR6GNWgdj+PmqKBnz9FFeqiGIFma1DQIUn5gJVzMDbbjrNBsiY2UajjyxWhwKAGxDlkrs/oUf211VXAbLeM2XNoWpgm32+g6+1WIjDZpklLWYfEwnYIq+AGhwvPqB5KbaQpxlaAeCKMIA49TjH7+4UeBsYu+zYQgPbu0vILfY3N7NZbTPd78uAiT7wjhUPVfRsYbqb2DuhQO1sUFt8FhQojtJrexpJcq72qFfM3S2eBPmiY="
+    secure: "fV4kzSfAHrrBhFdYA+S4wgLNW16GY0EHTmyZKjXdxJlsxSlRDuLkZUHIlKRGXsPKp7G6Dte0LVMQrir6zMkc9BN3bz7fj9qJx+gijyiXSCdZFQN/bfEorY3INI+MmVpJSaZBa1OqV9Iblkyi8p1HNrHIM/S+8v2Np3kraO7eEopXb+fVcuBGw1iR0twd3uFY3+/b4as9mTr25yFY4s8RMlR5J5EdY2YvD0K0CVKO0Chfn/ciOOdwM00PG13DEywEVWqY7oReVDD9Ozox6ryoZyC/7bl6GmpLUCWEvnPi5AKrSH+BI3/xZ3WOcB3Ua7xEnL7E6XuVktcD0Wp9FfcKxX3HxAMxNQciDAGcLlv2lj/lH7u/tXp7gqWwa0p3/aBNV6cB8+fmyps2oAps3pn5k3L2ceqHWeqtwsPVWqwkAglrDW/P2iEGC0zh4u6wXbyJCP8qNNcV4r1BuLTWCk0ThqGWI0Catd39mxQJkebJ5jXBgWmXbkL6m/qcaxMcfp1F+w6+TWdhJ3UuQLXBS6sFcLJRDeR9frWKgP1aSVoMBg3fsBGkXM18IOPZd8tC2hXnwh5/5MF3F1mfwD3AAyme8H4ECkEZ7CztwxuJiN/KcSxnp0dSY65jGavYUYBeg6ZzHuMGszxCVZUSMxoQyhR9HBm1ZhplPgeMpwxYYDMNveg="
   on:
     tags: true
     condition: "$NPM_PUBLISH = true"

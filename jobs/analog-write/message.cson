@@ -1,0 +1,14 @@
+title: 'Analog Write'
+type: 'object'
+properties:
+  data:
+    type: 'object'
+    properties:
+      component:
+        title: 'Component Name'
+        type: 'string'
+      value:
+        type: 'number'
+    required: [
+      'component'
+    ]
