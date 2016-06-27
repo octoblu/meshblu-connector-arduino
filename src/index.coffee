@@ -3,6 +3,9 @@ debug           = require('debug')('meshblu-connector-arduino:index')
 Kryten = require 'kryten'
 kryten = new Kryten {repl: false}
 _ = require 'lodash'
+
+UpdateSchema = require './update-components.coffee'
+updateSchema = new UpdateSchema
 prev = {}
 
 class Connector extends EventEmitter
@@ -21,29 +24,29 @@ class Connector extends EventEmitter
     @setOptions device
 
   start: (device, callback) =>
+    callback()
+
     debug 'started'
     @startKryten()
     @onConfig device
-    callback()
 
   message: (command) =>
     return unless command.component?
-    console.log command
-    # kryten.onMessage command
+    kryten.onMessage command
 
   setOptions: (device) =>
    @options = device.options
+   { components } = @options
    debug 'options', @options
    return if _.isEqual(@options, prev)
-   kryten.configure @options
+
+   @emit 'update', schemas: updateSchema.generate(components, device.schemas)
    debug 'configuring kryten', @options
+   kryten.configure @options
    prev = @options
 
   startKryten: () =>
     kryten.on 'ready', () =>
-      kryten.on 'config', (schema) =>
-        console.log schema
-
       kryten.on 'data', (data) =>
         @emit 'message', {
           devices: "*"

@@ -1,3 +1,24 @@
 angular: [
-  'options'
+  "options.autoDetect",
+  "options.port",
+  "options.interval",
+  {
+    "key": "options.components",
+    "add": "Add Component",
+    "style": {
+      "add": "btn-success"
+    },
+    "items": [
+      "options.components[].name",
+      "options.components[].action",
+      {
+        "key": "options.components[].pin",
+        "condition": "model.options.components[arrayIndex].action=='digitalRead' || model.options.components[arrayIndex].action=='digitalWrite' || model.options.components[arrayIndex].action=='analogRead' || model.options.components[arrayIndex].action=='analogWrite' || model.options.components[arrayIndex].action=='servo' || model.options.components[arrayIndex].action=='esc'"
+      },
+      {
+        "key": "options.components[].address",
+        "condition": "model.options.components[arrayIndex].action=='oled-i2c' || model.options.components[arrayIndex].action=='LCD-PCF8574A' || model.options.components[arrayIndex].action=='LCD-JHD1313M1' || model.options.components[arrayIndex].action=='PCA9685-Servo'"
+      }
+    ]
+  }
 ]
