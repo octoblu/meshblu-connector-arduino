@@ -21,12 +21,12 @@ properties:
         'properties':
           'min': 'type': 'number'
           'max': 'type': 'number'
-        'x-schema-form': 'condition': 'model.servo_action == \'sweep\''
+        'x-schema-form': 'condition': 'model.data.servo_action == \'sweep\''
       'to_value':
         'title': 'To'
         'description': 'An angle value 0 - 180'
         'type': 'number'
-        'x-schema-form': 'condition': 'model.servo_action == \'to\''
+        'x-schema-form': 'condition': 'model.data.servo_action == \'to\''
     required: [
       'component'
     ]

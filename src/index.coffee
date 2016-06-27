@@ -28,7 +28,8 @@ class Connector extends EventEmitter
 
   message: (command) =>
     return unless command.component?
-    kryten.onMessage command
+    console.log command
+    # kryten.onMessage command
 
   setOptions: (device) =>
    @options = device.options

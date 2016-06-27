@@ -23,8 +23,10 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "coffee-coverage": "^1.0.1",
+    "json-schema-to-markdown": "^1.0.1",
     "meshblu-connector-packager": "^12.0.0",
     "mocha": "^2.4.5",
+    "segfault-handler": "^1.0.0",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0"
   },
@@ -36,7 +38,8 @@
     "kryten": "^2.0.4",
     "lodash": "^4.12.0",
     "meshblu-config": "^5.1.1",
-    "meshblu-connector-runner": "^8.1.0"
+    "meshblu-connector-runner": "^8.1.0",
+    "meshblu-connector-schema-generator": "^2.1.0"
   },
   "meshbluConnector": {
     "githubSlug": "octoblu/meshblu-connector-arduino",
