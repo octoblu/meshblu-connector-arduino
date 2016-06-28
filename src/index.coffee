@@ -20,8 +20,10 @@ class Connector extends EventEmitter
 
   onConfig: (device={}) =>
     return unless device.options?
+
     { @options } = device
     debug 'on config', @options
+    return unless @options.components?
     @setOptions device
 
   start: (device, callback) =>
