@@ -1,17 +1,17 @@
 {
   "name": "meshblu-connector-arduino",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "Meshblu Connector ",
-  "homepage": "https://github.com/octoblu/meshblu-connector-arduino",
-  "bugs": "https://github.com/octoblu/meshblu-connector-arduino/issues",
+  "homepage": "https://github.com/sqrtofsaturn/meshblu-connector-arduino",
+  "bugs": "https://github.com/sqrtofsaturn/meshblu-connector-arduino/issues",
   "author": {
     "name": "Octoblu",
-    "url": "https://github.com/octoblu"
+    "url": "https://github.com/sqrtofsaturn"
   },
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/octoblu/meshblu-connector-arduino.git"
+    "url": "https://github.com/sqrtofsaturn/meshblu-connector-arduino.git"
   },
   "scripts": {
     "start": "meshblu-connector-runner",
@@ -42,7 +42,7 @@
     "meshblu-connector-schema-generator": "^2.1.0"
   },
   "meshbluConnector": {
-    "githubSlug": "octoblu/meshblu-connector-arduino"
+    "githubSlug": "sqrtofsaturn/meshblu-connector-arduino"
   },
   "platformDependencies": {
     "darwin": [],
