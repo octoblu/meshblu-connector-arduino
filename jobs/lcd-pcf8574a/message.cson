@@ -1,4 +1,5 @@
-title: 'LCD'
+title: 'LCD-PCF8574A'
+'x-group-name': 'Display'
 type: 'object'
 properties:
   data:
@@ -7,6 +8,7 @@ properties:
       component:
         title: 'Component Name'
         type: 'string'
+        description: "Configure your device to add components"
       text:
         type: 'string'
     required: [

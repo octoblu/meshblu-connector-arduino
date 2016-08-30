@@ -17,11 +17,11 @@ properties:
       'interval':
         'type': 'string'
         'enum': [
+          '200'
           '500'
           '1000'
           '1500'
           '2000'
-          '200'
         ]
         'description': 'The Interval in milliseconds to send Sensor readings.'
         'required': false

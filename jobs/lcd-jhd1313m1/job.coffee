@@ -1,8 +1,8 @@
 http = require 'http'
 
-class LCD
+class LcdJhd1313M1
   constructor: ({@connector}) ->
-    throw new Error 'LCD requires connector' unless @connector?
+    throw new Error 'LcdJhd1313M1 requires connector' unless @connector?
 
   do: ({data}, callback) =>
     return callback @_userError(422, 'data.component is required') unless data?.component?
@@ -19,4 +19,4 @@ class LCD
     error.code = code
     return error
 
-module.exports = LCD
+module.exports = LcdJhd1313M1

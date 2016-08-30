@@ -9,8 +9,8 @@ class UpdateSchema
       action = "AnalogWrite" if component.action == "analogWrite"
       action = "Servo" if component.action == "servo"
       action = "ServoContinuous" if component.action == "servo-continuous"
-      action = "Lcd" if component.action == "LCD-PCF8574A"
-      action = "Lcd" if component.action == "LCD-JHD1313M1"
+      action = "LcdPcf8574A" if component.action == "LCD-PCF8574A"
+      action = "LcdJhd1313M1" if component.action == "LCD-JHD1313M1"
       action = "Oled" if component.action == "oled-i2c"
       action = "Esc" if component.action == "esc"
 

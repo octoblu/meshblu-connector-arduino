@@ -1,4 +1,5 @@
 title: 'ESC'
+'x-group-name': 'Motor Control'
 type: 'object'
 properties:
   data:
@@ -7,6 +8,7 @@ properties:
       component:
         title: 'Component Name'
         type: 'string'
+        description: "Configure your device to add components"
       speed:
         type: 'number'
     required: [
